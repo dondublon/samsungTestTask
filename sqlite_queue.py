@@ -20,8 +20,8 @@ class SQLiteQueue(TaskQueue):
         cursor = self.connection.cursor()
         # noinspection SqlResolve
         cursor.execute(f"""SELECT id, priority, ram, cpu_cores, gpu_count, content, result """ 
-                       f"""FROM tasks WHERE ram >= {ar.ram} AND cpu_cores >= {ar.cpu_cores} AND """
-                       f"""gpu_count >= {ar.gpu_count} ORDER BY priority DESC LIMIT 1""")
+                       f"""FROM tasks WHERE ram <= {ar.ram} AND cpu_cores <= {ar.cpu_cores} AND """
+                       f"""gpu_count <= {ar.gpu_count} ORDER BY priority DESC LIMIT 1""")
         sql_result = cursor.fetchone()
 
         if sql_result is None:
