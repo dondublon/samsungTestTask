@@ -1,4 +1,5 @@
 from unittest import TestCase
+from random import randint
 
 from src.sqlite_queue.prepare_db import prepare_db
 from src.sqlite_queue.sqlite_queue import SQLiteQueue
@@ -121,3 +122,27 @@ class TestSQLite(TestCase):
         self.assertIsNone(task_expected9)
 
         queue.clear()
+
+    def test_random(self):
+        queue = SQLiteQueue(self.connection)
+        for i in range(1000):
+            task = Task(None, randint(0, 100), Resources(randint(0, 100), randint(0, 100), randint(0, 100)), "", "")
+            queue.add_task(task)
+
+        for i in range(1000):
+            res_ram = randint(0, 100)
+            res_cpu = randint(0, 100)
+            res_gpu = randint(0, 100)
+            res = Resources(res_ram, res_cpu, res_gpu)
+            tasks_left = queue.get_all(res)
+            if len(tasks_left):
+                max_priority = tasks_left[0].priority
+                for itm in tasks_left:
+                    self.assertLessEqual(itm.priority, max_priority)
+                    self.assertLessEqual(itm.resources.ram, res_ram)
+                    self.assertLessEqual(itm.resources.cpu_cores, res_cpu)
+                    self.assertLessEqual(itm.resources.gpu_count, res_gpu)
+            queue.get_task(res)
+
+        queue.clear()
+
