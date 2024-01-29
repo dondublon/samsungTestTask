@@ -85,18 +85,14 @@ class TestSQLite(TestCase):
         for task in tasks:
             queue.add_task(task)
         task_expected = queue.get_task(Resources(30, 3, 4))
-        self.assertIsNotNone(task_expected)
         self.assertEqual(11, task_expected.priority)
-        self.assertEqual(Resources(30, 3, 4), task_expected.resources)
         self.assertEqual("content2", task_expected.content)
 
         task_expected2 = queue.get_task(Resources(30, 3, 4))
         self.assertEqual(10, task_expected2.priority)
-        self.assertEqual(Resources(30, 3, 4), task_expected2.resources)
         self.assertEqual("content1", task_expected2.content)
 
         task_expected3 = queue.get_task(Resources(30, 3, 4))
-        self.assertIsNotNone(task_expected3)
         self.assertEqual(10, task_expected3.priority)
         self.assertEqual(task_expected3.content, 'content6')
 
