@@ -1,4 +1,4 @@
-from types_ import Resources, Task
+from src.types_ import Resources, Task
 
 
 class TaskQueue:

@@ -1,5 +1,5 @@
-from queue_ import TaskQueue
-from types_ import Task, Resources
+from src.queue_ import TaskQueue
+from src.types_ import Task, Resources
 
 
 class SQLiteQueue(TaskQueue):

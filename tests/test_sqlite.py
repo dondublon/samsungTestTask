@@ -1,8 +1,8 @@
 from unittest import TestCase
 
-from prepare_db import prepare_db
-from sqlite_queue import SQLiteQueue
-from types_ import Task, Resources
+from src.sqlite_queue.prepare_db import prepare_db
+from src.sqlite_queue.sqlite_queue import SQLiteQueue
+from src.types_ import Task, Resources
 
 
 class TestSQLite(TestCase):
