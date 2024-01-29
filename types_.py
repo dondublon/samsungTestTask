@@ -10,7 +10,7 @@ class Resources:
 
 @dataclass
 class Task:
-    id: int
+    id: int | None  # None for adding.
     priority: int
     resources: Resources
     content: str

@@ -32,5 +32,10 @@ class SQLiteQueue(TaskQueue):
             task = Task(id_, priority, resources, content, result)
             return task
 
-
+    def clear(self):
+        """Clears all the queue, be careful!"""
+        cursor = self.connection.cursor()
+        # noinspection SqlResolve,SqlWithoutWhere
+        cursor.execute("DELETE FROM tasks")
+        self.connection.commit()
 
