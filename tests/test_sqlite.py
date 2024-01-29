@@ -125,6 +125,7 @@ class TestSQLite(TestCase):
             task = Task(None, randint(0, 100), Resources(randint(0, 100), randint(0, 100), randint(0, 100)), "", "")
             queue.add_task(task)
 
+        got_tasks_count = 0
         for i in range(1000):
             res_ram = randint(0, 100)
             res_cpu = randint(0, 100)
@@ -138,7 +139,11 @@ class TestSQLite(TestCase):
                     self.assertLessEqual(itm.resources.ram, res_ram)
                     self.assertLessEqual(itm.resources.cpu_cores, res_cpu)
                     self.assertLessEqual(itm.resources.gpu_count, res_gpu)
+                got_tasks_count += 1
             queue.get_task(res)
+
+        tasks_left = queue.get_all(Resources(100, 100, 100))
+        self.assertEqual(1000-got_tasks_count, len(tasks_left))
 
         queue.clear()
 
