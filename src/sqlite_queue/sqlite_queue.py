@@ -42,3 +42,20 @@ class SQLiteQueue(TaskQueue):
         cursor.execute("DELETE FROM tasks")
         self.connection.commit()
 
+    def get_all(self, available_resources: Resources) -> list[Task]:
+        """Just for control"""
+        ar = available_resources
+        cursor = self.connection.cursor()
+        # noinspection SqlResolve
+        cursor.execute(f"""SELECT id, priority, ram, cpu_cores, gpu_count, content, result """ 
+                       f"""FROM tasks WHERE ram <= {ar.ram} AND cpu_cores <= {ar.cpu_cores} AND """
+                       f"""gpu_count <= {ar.gpu_count} ORDER BY priority DESC""")
+        sql_result = cursor.fetchall()
+        result_tasks = []
+        for sql_res_1 in sql_result:
+            id_, priority, ram, cpu_cores, gpu_count, content, result = sql_res_1
+            resources = Resources(ram, cpu_cores, gpu_count)
+            task = Task(id_, priority, resources, content, result)
+            result_tasks.append(task)
+        return result_tasks
+
