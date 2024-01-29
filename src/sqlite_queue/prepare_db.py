@@ -19,7 +19,7 @@ def prepare_db() -> Connection:
         )
     ''')
 
-    cursor.execute('CREATE INDEX ix_resources_priority ON tasks (cpu_cores, gpu_count, ram, priority)')
+    cursor.execute('CREATE INDEX ix_resources_priority ON tasks (cpu_cores DESC , gpu_count DESC , ram DESC , priority DESC)')
 
     connection.commit()
 
