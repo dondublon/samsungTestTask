@@ -12,6 +12,11 @@ class TestSQLite(TestCase):
         connection = prepare_db()
         cls.connection = connection
 
+    def test_empty(self):
+        queue = SQLiteQueue(self.connection)
+        task = queue.get_task(Resources(32, 3, 4))
+        self.assertIsNone(task)
+
     def test_one_task(self):
         queue = SQLiteQueue(self.connection)
         task = Task(None, 10, Resources(32, 3, 4), "content", "")
