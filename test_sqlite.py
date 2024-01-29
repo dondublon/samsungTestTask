@@ -37,3 +37,16 @@ class TestSQLite(TestCase):
         task_expected = queue.get_task(Resources(33, 3, 4))
         self.assertIsNone(task_expected)
         queue.clear()
+
+    def test_return_some(self):
+        queue = SQLiteQueue(self.connection)
+        tasks = [Task(None, 10, Resources(30, 3, 4), "content", ""),
+                 Task(None, 11, Resources(32, 3, 4), "content", ""),
+                 Task(None, 12, Resources(32, 3, 4), "content", ""),
+                 Task(None, 11, Resources(32, 3, 4), "content", "")]
+        for task in tasks:
+            queue.add_task(task)
+        task_expected = queue.get_task(Resources(32, 3, 4))
+        self.assertIsNotNone(task_expected)
+        self.assertEqual(12, task_expected.priority)
+        queue.clear()
