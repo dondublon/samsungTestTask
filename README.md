@@ -1,7 +1,7 @@
 # The Queue
 
 
-The 1st option - I use DB (SQLIte in my case) and leverage on its indexes. 
+I use DB (SQLIte in my case) and leverage on its indexes. 
 Of course, I can do the index myself, but it would be just a reproduction of DB indexes.
 Each time I add a task, it is inserted in the perfect position. 
 The first step - the DB engine consider `ram` border, for each `ram` value if considers `cpu_cores` interval, 
