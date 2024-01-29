@@ -10,9 +10,9 @@ class SQLiteQueue(TaskQueue):
         """task.id is ignored here"""
         cursor = self.connection.cursor()
         # noinspection SqlResolve
-        cursor.execute(f"""INSERT INTO tasks(priority, ram, cpu_cores, gpu_count) """
-                       f"""VALUES ({task.priority}, {task.resources.ram}, {task.resources.cpu_cores} ,""" 
-                       f"""{task.resources.gpu_count})""")
+        cursor.execute(f"""INSERT INTO tasks(priority, ram, cpu_cores, gpu_count, content) """
+                       f"""VALUES (?, ?, ?, ?, ?)""",
+                       (task.priority, task.resources.ram, task.resources.cpu_cores,task.resources.gpu_count, task.content))
         self.connection.commit()
 
     def get_task(self, available_resources: Resources) -> Task | None:
