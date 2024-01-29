@@ -131,10 +131,10 @@ class TestSQLite(TestCase):
             res_cpu = randint(0, 100)
             res_gpu = randint(0, 100)
             res = Resources(res_ram, res_cpu, res_gpu)
-            tasks_left = queue.get_all(res)
-            if len(tasks_left):
-                max_priority = tasks_left[0].priority
-                for itm in tasks_left:
+            tasks_match = queue.get_all(res)
+            if len(tasks_match):
+                max_priority = tasks_match[0].priority
+                for itm in tasks_match:
                     self.assertLessEqual(itm.priority, max_priority)
                     self.assertLessEqual(itm.resources.ram, res_ram)
                     self.assertLessEqual(itm.resources.cpu_cores, res_cpu)
