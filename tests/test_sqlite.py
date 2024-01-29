@@ -74,7 +74,13 @@ class TestSQLite(TestCase):
                  Task(None, 11, Resources(30, 3, 4), "content2", ""),
                  Task(None, 11, Resources(32, 3, 4), "content3", ""),
                  Task(None, 12, Resources(32, 3, 4), "content4", ""),
-                 Task(None, 11, Resources(32, 3, 4), "content5", "")]
+                 Task(None, 11, Resources(32, 3, 4), "content5", ""),
+                 Task(None, 10, Resources(30, 2, 4), "content6", ""),
+                 Task(None, 11, Resources(30, 4, 2), "content7", ""),
+                 Task(None, 11, Resources(32, 3, 4), "content8", ""),
+                 Task(None, 12, Resources(32, 3, 4), "content9", ""),
+                 Task(None, 11, Resources(32, 3, 4), "content10", "")
+                 ]
         for task in tasks:
             queue.add_task(task)
         task_expected = queue.get_task(Resources(30, 3, 4))
@@ -84,13 +90,34 @@ class TestSQLite(TestCase):
         self.assertEqual("content2", task_expected.content)
 
         task_expected2 = queue.get_task(Resources(30, 3, 4))
-        self.assertIsNotNone(task_expected2)
         self.assertEqual(10, task_expected2.priority)
         self.assertEqual(Resources(30, 3, 4), task_expected2.resources)
         self.assertEqual("content1", task_expected2.content)
 
         task_expected3 = queue.get_task(Resources(30, 3, 4))
-        self.assertIsNone(task_expected3)
+        self.assertIsNotNone(task_expected3)
+        self.assertEqual(10, task_expected3.priority)
+        self.assertEqual(task_expected3.content, 'content6')
+
+        task_expected4 = queue.get_task(Resources(32, 3, 4))
+        self.assertEqual(12, task_expected4.priority)
+
+        task_expected5 = queue.get_task(Resources(33, 3, 4))
+        self.assertEqual(12, task_expected5.priority)
+
+        task_expected5 = queue.get_task(Resources(33, 3, 4))
+        self.assertEqual(11, task_expected5.priority)
+
+        task_expected6 = queue.get_task(Resources(33, 3, 4))
+        self.assertEqual(11, task_expected6.priority)
+
+        task_expected7 = queue.get_task(Resources(33, 3, 4))
+        self.assertEqual(11, task_expected7.priority)
+
+        task_expected8 = queue.get_task(Resources(30, 3, 4))
+        self.assertIsNone(task_expected8)
+
+        task_expected9 = queue.get_task(Resources(30, 3, 4))
+        self.assertIsNone(task_expected9)
 
         queue.clear()
-
