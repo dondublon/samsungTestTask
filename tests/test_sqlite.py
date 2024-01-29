@@ -7,6 +7,7 @@ from src.types_ import Task, Resources
 
 class TestSQLite(TestCase):
     connection = None
+
     @classmethod
     def setUpClass(cls) -> None:
         connection = prepare_db()
@@ -66,3 +67,30 @@ class TestSQLite(TestCase):
         self.assertEqual(Resources(30, 3, 4), task_expected.resources)
         self.assertEqual("content2", task_expected.content)
         queue.clear()
+
+    def test_some_resources_out_several_tasks(self):
+        queue = SQLiteQueue(self.connection)
+        tasks = [Task(None, 10, Resources(30, 3, 4), "content1", ""),
+                 Task(None, 11, Resources(30, 3, 4), "content2", ""),
+                 Task(None, 11, Resources(32, 3, 4), "content3", ""),
+                 Task(None, 12, Resources(32, 3, 4), "content4", ""),
+                 Task(None, 11, Resources(32, 3, 4), "content5", "")]
+        for task in tasks:
+            queue.add_task(task)
+        task_expected = queue.get_task(Resources(30, 3, 4))
+        self.assertIsNotNone(task_expected)
+        self.assertEqual(11, task_expected.priority)
+        self.assertEqual(Resources(30, 3, 4), task_expected.resources)
+        self.assertEqual("content2", task_expected.content)
+
+        task_expected2 = queue.get_task(Resources(30, 3, 4))
+        self.assertIsNotNone(task_expected2)
+        self.assertEqual(10, task_expected2.priority)
+        self.assertEqual(Resources(30, 3, 4), task_expected2.resources)
+        self.assertEqual("content1", task_expected2.content)
+
+        task_expected3 = queue.get_task(Resources(30, 3, 4))
+        self.assertIsNone(task_expected3)
+
+        queue.clear()
+
