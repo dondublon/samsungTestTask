@@ -30,6 +30,8 @@ class SQLiteQueue(TaskQueue):
             id_, priority, ram, cpu_cores, gpu_count, content, result = sql_result
             resources = Resources(ram, cpu_cores, gpu_count)
             task = Task(id_, priority, resources, content, result)
+            cursor.execute(f"DELETE FROM tasks WHERE id={id_}")
+            self.connection.commit()
             return task
 
     def clear(self):
