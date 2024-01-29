@@ -141,8 +141,7 @@ class TestSQLite(TestCase):
                     self.assertLessEqual(itm.resources.gpu_count, res_gpu)
                 got_tasks_count += 1
             else:
-                all_tasks = queue.get_all(res)
-                for itm in all_tasks:
+                for itm in tasks_match:
                     self.assertGreater(itm.resources.ram, res_ram)
                     self.assertGreater(itm.resources.cpu_cores, res_cpu)
                     self.assertGreater(itm.resources.gpu_count, res_gpu)
