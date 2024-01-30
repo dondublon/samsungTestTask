@@ -32,10 +32,12 @@ class TestNumpy(TestQueueCommon):
             res_cpu = randint(0, self.MAX_CPU)
             res_gpu = randint(0, self.MAX_GPU)
             res = Resources(res_ram, res_cpu, res_gpu)
+            retrieved_task = queue.get_task(res)
             tasks_match = queue.get_all(res)
-            if len(tasks_match):
+            if retrieved_task:
+                max_priority = retrieved_task.priority
+                # self.assertGreater(len(tasks_match), 0)
                 for tasks_row in tasks_match:
-                    max_priority = tasks_row[-1].priority
                     for itm in tasks_row:
                         self.assertLessEqual(itm.priority, max_priority)
                         self.assertLessEqual(itm.resources.ram, res_ram)
@@ -43,12 +45,12 @@ class TestNumpy(TestQueueCommon):
                         self.assertLessEqual(itm.resources.gpu_count, res_gpu)
                 got_tasks_count += 1
             else:
+                self.assertEqual(len(tasks_match), 0)
                 for tasks_row in tasks_match:
                     for itm in tasks_row:
                         self.assertGreater(itm.resources.ram, res_ram)
                         self.assertGreater(itm.resources.cpu_cores, res_cpu)
                         self.assertGreater(itm.resources.gpu_count, res_gpu)
-            queue.get_task(res)
 
         tasks_left = queue.get_all(Resources(self.MAX_RAM, self.MAX_CPU, self.MAX_GPU))
         self.assertEqual(tasks_range-got_tasks_count, len(tasks_left))
