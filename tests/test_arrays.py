@@ -1,18 +1,18 @@
 from random import randint
 
-from src.numpy_queue.numpy_queue import NumpyQueue
+from src.arrays_queue.arrays_queue import ArraysQueue
 from src.types_ import Task, Resources
 from tests.test_common import TestQueueCommon
 
 
-class TestNumpy(TestQueueCommon):
+class TestArrays(TestQueueCommon):
     MAX_PRIORITY = 100
     MAX_RAM = 100
     MAX_CPU = 100
     MAX_GPU = 100
 
     def get_queue(self):
-        queue = NumpyQueue(self.MAX_RAM, self.MAX_CPU, self.MAX_GPU)
+        queue = ArraysQueue(self.MAX_RAM, self.MAX_CPU, self.MAX_GPU)
         return queue
 
     def test_random(self):

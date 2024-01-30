@@ -5,7 +5,7 @@ from src.queue_ import TaskQueue
 from src.types_ import Task, Resources
 
 
-class NumpyQueue(TaskQueue):
+class ArraysQueue(TaskQueue):
     def __init__(self, max_ram, max_cpu, max_gpu):
         self.default_shape = (max_ram+1, max_cpu+1, max_gpu+1)
         self.arr = None
