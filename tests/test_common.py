@@ -111,4 +111,3 @@ class TestQueueCommon(TestCase):
         self.assertIsNone(task_expected9)
 
         queue.clear()
-

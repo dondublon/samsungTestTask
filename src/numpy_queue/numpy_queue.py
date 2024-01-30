@@ -6,14 +6,16 @@ from src.types_ import Task, Resources
 
 
 class NumpyQueue(TaskQueue):
-    def __init__(self):
+    def __init__(self, max_ram, max_cpu, max_gpu):
+        self.default_shape = (max_ram+1, max_cpu+1, max_gpu+1)
         self.arr = None
         self.clear()
 
     def clear(self):
-        self.arr = np.empty((101, 101, 101), dtype=object)
+        self.arr = np.empty(self.default_shape, dtype=object)
 
     def add_task(self, task: Task):
+
         resource_point = self.arr[task.resources.ram, task.resources.cpu_cores, task.resources.gpu_count]
         if resource_point is None:
             self.arr[task.resources.ram, task.resources.cpu_cores, task.resources.gpu_count] = [task]
