@@ -30,5 +30,9 @@ There are some tasks ordered by priority, we can take the 1st one. )
 While we request for a task, anyway we cut-off tasks that are otu of resources, 
 then we can take the maximum priority. 
 
+As additional approach, I implemented the queue myself using arrays (numpy arrays for convenience and Python lists).
+This approach is super-fast, especially when |R| is not very big, but less scalable.
+Please, consider DB way as the main one. 
+
 Also, potentially we can consider asynchronous adding/retrieving here, and database handles it better. 
 I guess, this functionality of out of the test task scope. 
