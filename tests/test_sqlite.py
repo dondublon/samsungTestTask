@@ -49,13 +49,11 @@ class TestSQLite(TestQueueCommon):
                     self.assertLessEqual(itm.resources.ram, res_ram)
                     self.assertLessEqual(itm.resources.cpu_cores, res_cpu)
                     self.assertLessEqual(itm.resources.gpu_count, res_gpu)
-
             else:
                 for itm in tasks_match:
                     self.assertGreater(itm.resources.ram, res_ram)
                     self.assertGreater(itm.resources.cpu_cores, res_cpu)
                     self.assertGreater(itm.resources.gpu_count, res_gpu)
-
 
         tasks_left = queue.get_all(Resources(max_ram, max_cpu, max_gpu))
         self.assertEqual(tasks_range-got_tasks_count, len(tasks_left))
