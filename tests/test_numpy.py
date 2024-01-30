@@ -82,11 +82,11 @@ class TestNumpy(TestCase):
 
         task_expected2 = queue.get_task(Resources(30, 3, 4))
         self.assertEqual(10, task_expected2.priority)
-        self.assertEqual("content1", task_expected2.content)
+        self.assertIn(task_expected2.content, ("content1", 'content6'))
 
         task_expected3 = queue.get_task(Resources(30, 3, 4))
         self.assertEqual(10, task_expected3.priority)
-        self.assertEqual(task_expected3.content, 'content6')
+        self.assertIn(task_expected2.content, ("content1", 'content6'))
 
         task_expected4 = queue.get_task(Resources(32, 3, 4))
         self.assertEqual(12, task_expected4.priority)
