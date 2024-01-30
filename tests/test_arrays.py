@@ -16,7 +16,8 @@ class TestArrays(TestQueueCommon):
         return queue
 
     def test_random(self):
-        """This test knows about the internal task storage and checks it."""
+        """This test knows about the internal task storage and checks it.
+        Consumes ~30 seconds on my computer."""
         queue = self.get_queue()
         tasks_range = 1000
 
