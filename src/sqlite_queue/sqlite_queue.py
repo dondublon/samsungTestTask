@@ -12,7 +12,8 @@ class SQLiteQueue(TaskQueue):
         # noinspection SqlResolve
         cursor.execute(f"""INSERT INTO tasks(priority, ram, cpu_cores, gpu_count, content) """
                        f"""VALUES (?, ?, ?, ?, ?)""",
-                       (task.priority, task.resources.ram, task.resources.cpu_cores,task.resources.gpu_count, task.content))
+                       (task.priority, task.resources.ram, task.resources.cpu_cores,
+                        task.resources.gpu_count, task.content))
         self.connection.commit()
 
     def get_task(self, available_resources: Resources) -> Task | None:
@@ -58,4 +59,3 @@ class SQLiteQueue(TaskQueue):
             task = Task(id_, priority, resources, content, result)
             result_tasks.append(task)
         return result_tasks
-
