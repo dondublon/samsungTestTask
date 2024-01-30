@@ -32,6 +32,8 @@ There are some tasks ordered by priority, we can take the 1st one.
 The second approach does analogous. We got the tasks sorted by priority, 
 then we quickly go to `ram` values that fits us, then `cpu_cores`, then `gpu_count`.    
  
+The implementation is in `sqlite_queue.queue_.py`, tests are in `test_sqlite.py`.
+
 ## 2nd approach, using arrays, the additional one.
 
 As an additional approach, I implemented the queue myself using arrays (numpy arrays for convenience and Python lists).
@@ -40,3 +42,4 @@ Please, consider DB way as the main one.
 
 Also, potentially we can consider asynchronous adding/retrieving here, and database handles it better. 
 I guess, this functionality of out of the test task scope. 
+The implementation is in `arrays_queue.arrays_queue.py`, tests are in `test_arrays.py`.

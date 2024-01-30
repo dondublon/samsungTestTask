@@ -7,6 +7,8 @@ from src.types_ import Task, Resources
 
 class ArraysQueue(TaskQueue):
     def __init__(self, max_ram, max_cpu, max_gpu):
+        """Potentially, we can reshape the buffer to handle the resource-points out of our range,
+        but numpy has some issues with resizing of pointer arrays."""
         self.default_shape = (max_ram+1, max_cpu+1, max_gpu+1)
         self.arr = None
         self.clear()
@@ -15,7 +17,6 @@ class ArraysQueue(TaskQueue):
         self.arr = np.empty(self.default_shape, dtype=object)
 
     def add_task(self, task: Task):
-
         resource_point = self.arr[task.resources.ram, task.resources.cpu_cores, task.resources.gpu_count]
         if resource_point is None:
             self.arr[task.resources.ram, task.resources.cpu_cores, task.resources.gpu_count] = [task]
