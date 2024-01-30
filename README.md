@@ -10,17 +10,17 @@ Let's designate:
 * amount of possible ram values as |Ra|,
 * the same for CPU count - |C|
 * the same for GPU amount - |G|.
-* |Ra|*|C|*|G|=|R| (resources)
+* |Ra| * |C| * |G|=|R| (resources)
 
-The main "fork" in the approach is - if we have rather small |P| value (for example, 100 or even 
-1000 possible priority options) with large |R|, or, otherwise, large |P| with small |R| 
-(for example |Ra|, |C|, |G| < 100).
+The main "fork" in the approach is - if we have large |P| with small |R| 
+(for example |Ra|, |C|, |G| < 100), OR, otherwise, we have rather small |P| value (for example, 100 or even 
+1000 possible priority options) with large |R|. 
 
 Depending on this, there are two approached to create DB indexes:
-1. Priority, then Ram, CPU, CPU.
-2. Ram, CPU, GPU - then Ram. 
-
-(Consider the 2nd option.
+1. Ram, CPU, GPU - then Ram.
+2. Priority, then Ram, CPU, CPU.
+ 
+(Consider the 1nd option more closely.
 Each time I add a task, it is inserted in the perfect position. 
 The first step - the DB engine consider `ram` border, for each `ram` value if considers `cpu_cores` interval, 
 for each `ram` value and `cpu_cores` it founds `gpu_count` interval.

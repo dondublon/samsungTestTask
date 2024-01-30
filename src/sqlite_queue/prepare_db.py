@@ -19,9 +19,11 @@ def prepare_db() -> Connection:
         )
     ''')
     # For option 1 (see explanation in README.md):
-    cursor.execute('CREATE INDEX ix_priority_resources ON tasks (priority DESC, cpu_cores DESC , gpu_count DESC , ram DESC)')
+    cursor.execute(
+        'CREATE INDEX ix_resources_priority ON tasks (cpu_cores DESC , gpu_count DESC , ram DESC , priority DESC)')
     # For option 2 (see explanation in README.md):
-    cursor.execute('CREATE INDEX ix_resources_priority ON tasks (cpu_cores DESC , gpu_count DESC , ram DESC , priority DESC)')
+    cursor.execute(
+        'CREATE INDEX ix_priority_resources ON tasks (priority DESC, cpu_cores DESC , gpu_count DESC , ram DESC)')
     # However, in SQLite we can use "INDEXED BY" instruction to hint the engine to choose the index,
     # depending on our |P| and |C|*|Ra|*|G| ratio.
 
