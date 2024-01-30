@@ -121,15 +121,20 @@ class TestSQLite(TestCase):
 
     def test_random(self):
         queue = SQLiteQueue(self.connection)
-        for i in range(1000):
-            task = Task(None, randint(0, 100), Resources(randint(0, 100), randint(0, 100), randint(0, 100)), "", "")
+        TASKS_RANGE = 1000
+        MAX_PRIORITY = 100
+        MAX_RAM = 100
+        MAX_CPU = 100
+        MAX_GPU = 100
+        for i in range(TASKS_RANGE):
+            task = Task(None, randint(0, MAX_PRIORITY), Resources(randint(0, MAX_RAM), randint(0, MAX_CPU), randint(0, MAX_GPU)), "", "")
             queue.add_task(task)
 
         got_tasks_count = 0
-        for i in range(1000):
-            res_ram = randint(0, 100)
-            res_cpu = randint(0, 100)
-            res_gpu = randint(0, 100)
+        for i in range(TASKS_RANGE):
+            res_ram = randint(0, MAX_RAM)
+            res_cpu = randint(0, MAX_CPU)
+            res_gpu = randint(0, MAX_GPU)
             res = Resources(res_ram, res_cpu, res_gpu)
             tasks_match = queue.get_all(res)
             if len(tasks_match):
@@ -147,8 +152,8 @@ class TestSQLite(TestCase):
                     self.assertGreater(itm.resources.gpu_count, res_gpu)
             queue.get_task(res)
 
-        tasks_left = queue.get_all(Resources(100, 100, 100))
-        self.assertEqual(1000-got_tasks_count, len(tasks_left))
+        tasks_left = queue.get_all(Resources(MAX_RAM, MAX_CPU, MAX_GPU))
+        self.assertEqual(TASKS_RANGE-got_tasks_count, len(tasks_left))
 
         queue.clear()
 
