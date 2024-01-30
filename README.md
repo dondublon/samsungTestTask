@@ -16,21 +16,22 @@ The main "fork" in the approach is - if we have large |P| with small |R|
 (for example |Ra|, |C|, |G| < 100), OR, otherwise, we have rather small |P| value (for example, 100 or even 
 1000 possible priority options) with large |R|. 
 
-Depending on this, there are two approached to create DB indexes:
+Depending on this, there are two approaches to create DB indexes:
 1. Ram, CPU, GPU - then Ram.
 2. Priority, then Ram, CPU, CPU.
  
-(Consider the 1nd option more closely.
+Consider the 1nd option more closely.
 Each time I add a task, it is inserted in the perfect position. 
 The first step - the DB engine consider `ram` border, for each `ram` value if considers `cpu_cores` interval, 
 for each `ram` value and `cpu_cores` it founds `gpu_count` interval.
-Of course, it consumes some time, but in general it works quite quick.
-
-There are some tasks ordered by priority, we can take the 1st one. )
- 
-While we request for a task, anyway we cut-off tasks that are otu of resources, 
+While we request for a task, anyway we cut-off tasks that are out of resources, 
 then we can take the maximum priority. 
+Of course, it consumes some time, but in general it works quite quick.
+There are some tasks ordered by priority, we can take the 1st one. 
 
+The second approach does analogous. We got the tasks sorted by priority, 
+then we quickly go to `ram` values that fits us, then `cpu_cores`, then `gpu_count`.    
+ 
 ## 2nd approach, using arrays, the additional one.
 
 As an additional approach, I implemented the queue myself using arrays (numpy arrays for convenience and Python lists).
