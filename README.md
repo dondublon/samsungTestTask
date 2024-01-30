@@ -1,6 +1,7 @@
 # The Queue
 
 
+## 1st Approach, using DB. The main one. 
 I use DB (SQLIte in my case) and leverage on its indexes.
 Of course, I can do the index myself, but it would be just a reproduction of DB indexes functionality.
 
@@ -11,7 +12,7 @@ Let's designate:
 * the same for GPU amount - |G|.
 * |Ra|*|C|*|G|=|R| (resources)
 
-The main "fork" in approach is - if we have rather small |P| value (for example, 100 or even 
+The main "fork" in the approach is - if we have rather small |P| value (for example, 100 or even 
 1000 possible priority options) with large |R|, or, otherwise, large |P| with small |R| 
 (for example |Ra|, |C|, |G| < 100).
 
@@ -30,8 +31,10 @@ There are some tasks ordered by priority, we can take the 1st one. )
 While we request for a task, anyway we cut-off tasks that are otu of resources, 
 then we can take the maximum priority. 
 
-As additional approach, I implemented the queue myself using arrays (numpy arrays for convenience and Python lists).
-This approach is super-fast, especially when |R| is not very big, but less scalable.
+## 2nd approach, using arrays, the additional one.
+
+As an additional approach, I implemented the queue myself using arrays (numpy arrays for convenience and Python lists).
+This approach entirely in memory, it is super-fast, especially when |R| is not very big, but less scalable.
 Please, consider DB way as the main one. 
 
 Also, potentially we can consider asynchronous adding/retrieving here, and database handles it better. 
