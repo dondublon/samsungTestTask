@@ -36,7 +36,6 @@ class TestArrays(TestQueueCommon):
             tasks_match = queue.get_all(res)
             if retrieved_task:
                 max_priority = retrieved_task.priority
-                # self.assertGreater(len(tasks_match), 0)
                 for tasks_row in tasks_match:
                     for itm in tasks_row:
                         self.assertLessEqual(itm.priority, max_priority)
@@ -46,11 +45,6 @@ class TestArrays(TestQueueCommon):
                 got_tasks_count += 1
             else:
                 self.assertEqual(len(tasks_match), 0)
-                for tasks_row in tasks_match:
-                    for itm in tasks_row:
-                        self.assertGreater(itm.resources.ram, res_ram)
-                        self.assertGreater(itm.resources.cpu_cores, res_cpu)
-                        self.assertGreater(itm.resources.gpu_count, res_gpu)
 
         tasks_left = queue.get_all(Resources(self.MAX_RAM, self.MAX_CPU, self.MAX_GPU))
         self.assertEqual(tasks_range-got_tasks_count, len(tasks_left))
