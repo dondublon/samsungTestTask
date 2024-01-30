@@ -38,21 +38,24 @@ class TestSQLite(TestQueueCommon):
             res_cpu = randint(0, max_cpu)
             res_gpu = randint(0, max_gpu)
             res = Resources(res_ram, res_cpu, res_gpu)
+            task_retrieved = queue.get_task(res)
+            if task_retrieved:
+                got_tasks_count += 1
             tasks_match = queue.get_all(res)
             if len(tasks_match):
-                max_priority = tasks_match[0].priority
+                max_priority = task_retrieved.priority
                 for itm in tasks_match:
                     self.assertLessEqual(itm.priority, max_priority)
                     self.assertLessEqual(itm.resources.ram, res_ram)
                     self.assertLessEqual(itm.resources.cpu_cores, res_cpu)
                     self.assertLessEqual(itm.resources.gpu_count, res_gpu)
-                got_tasks_count += 1
+
             else:
                 for itm in tasks_match:
                     self.assertGreater(itm.resources.ram, res_ram)
                     self.assertGreater(itm.resources.cpu_cores, res_cpu)
                     self.assertGreater(itm.resources.gpu_count, res_gpu)
-            queue.get_task(res)
+
 
         tasks_left = queue.get_all(Resources(max_ram, max_cpu, max_gpu))
         self.assertEqual(tasks_range-got_tasks_count, len(tasks_left))
