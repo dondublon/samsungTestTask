@@ -37,3 +37,13 @@ class NumpyQueue(TaskQueue):
             row = self.arr[tmp_coords]
             del row[-1]
         return tmp_obj
+
+    def get_all(self, available_resources: Resources) -> list[Task]:
+        ar = available_resources
+        result_list = []
+        for ram_idx in range(ar.ram+1):
+            for cpu_idx in range(ar.cpu_cores+1):
+                for gpu_idx in range(ar.gpu_count+1):
+                    if row := self.arr[ram_idx, cpu_idx, gpu_idx]:
+                        result_list.extend(row)
+        return result_list
