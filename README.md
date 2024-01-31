@@ -37,7 +37,8 @@ The implementation is in `sqlite_queue.queue_.py`, tests are in `test_sqlite.py`
 ## 2nd approach, using arrays, the additional one.
 
 As an additional approach, I implemented the queue myself using arrays (numpy arrays for convenience and Python lists).
-This approach entirely in memory, it is super-fast, especially when |R| is not very big, but less scalable.
+This approach entirely in memory, it is super-fast, especially when |R| is not very big, 
+but it is memory consumable and less scalable.
 Please, consider DB way as the main one. 
 
 Also, potentially we can consider asynchronous adding/retrieving here, and database handles it better. 
